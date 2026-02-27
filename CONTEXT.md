@@ -18,7 +18,7 @@ Build a car-selling platform where listings are ingested from WhatsApp group mes
 - Migrations: Alembic
 - Background jobs: Celery + Redis
 - Frontend: Next.js + TypeScript + Tailwind + shadcn/ui
-- Media storage: S3-compatible bucket
+- Media storage: project-local media folder for bootstrap (`digitalgarage-ai/data/media`) + S3-compatible bucket for production
 - Containerization: Docker + Docker Compose (dev and single-server deploy baseline)
 - Reverse proxy/TLS: Nginx (or Caddy) in front of frontend/backend
 

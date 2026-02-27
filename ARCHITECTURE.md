@@ -45,6 +45,32 @@ Use Docker for both local dev and first production deploy.
 6. Admin approves/edits -> `published`
 7. Frontend surfaces published inventory
 
+## Existing Data Bootstrap (Current Memory)
+Current extracted inventory already exists and must be treated as bootstrap source:
+- Path: `/Users/mattmurrayswe/.openclaw/workspace/digitalgarage-ai/data/car-leads.ndjson`
+- Current baseline: 29 vehicle records (excluding `_meta` rows)
+
+### Import Contract (NDJSON -> DB)
+- Read each line as one JSON listing event
+- Skip rows containing `_meta`
+- Dedupe key: `messageId` (hard unique)
+- Preserve raw payload reference for traceability/reprocessing
+
+### Expected Fields from current extractor
+- `capturedAt`, `publishedAt`
+- `group`, `groupId`, `messageId`
+- `sellerWhatsApp`
+- `brand`, `model`, `year`
+- `priceBRL`, `rawPriceText`
+- `image` / `imageRef`
+- `source`
+
+### Mapping notes
+- `source_messages.external_message_id` <= `messageId`
+- `listings.status` defaults to `pending_review` for imported rows unless explicitly marked otherwise
+- Keep original NDJSON value snapshots to allow parser improvements without data loss
+- Store media under project control at `digitalgarage-ai/data/media/` and persist project-relative references (e.g., `data/media/<file>`) in listing payloads
+
 ## Non-Functional Baseline
 - Structured logs per container
 - Health endpoints: `/health` (api), readiness for frontend
