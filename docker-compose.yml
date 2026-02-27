@@ -28,6 +28,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - ./data:/app/data:ro
 
   frontend:
     build:
@@ -35,6 +36,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    environment:
+      API_INTERNAL_URL: http://backend:8000
     depends_on:
       - backend
     ports:
